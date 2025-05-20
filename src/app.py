@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from pickle import load
+from joblib import load  # Importamos joblib para cargar el modelo
 import os
 import pandas as pd  
 
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # Cargar el modelo
 model_path = os.path.join(os.path.dirname(__file__), "decision_tree_classifier_default_42.sav")
-model = load(open(model_path, "rb"))
+model = load(model_path)  # Usamos joblib.load para cargar el modelo
 
 # Diccionario de clases
 class_dict = {
@@ -37,5 +37,9 @@ def index():
         pred_class = class_dict[prediction]
 
     return render_template("index.html", prediction=pred_class)
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
 
 
